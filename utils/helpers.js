@@ -1,5 +1,6 @@
 // Helper functions
 const validator = require("validator");
+const { Constants } = require("../models");
 
 const getFormattedThumbnails = (data) => {
     let thumbnails = [];
@@ -31,9 +32,29 @@ const sendResponse = (message, data) => {
     };
 }
 
+const getApiKey = async () => {
+    let all_api_keys = JSON.parse(process.env.API_KEYS);
+    let api_key_index = await Constants.findOne({ name: "api_key_index" });
+    let total_api_keys = await Constants.findOne({ name: "total_api_keys" });
+    if(api_key_index.value < total_api_keys.value)
+        return all_api_keys[api_key_index.value];
+    return "";
+}
+
+const setNextApiKey = async () => {
+    let api_key_index = await Constants.findOne({ name: "api_key_index" });
+    let total_api_keys = await Constants.findOne({ name: "total_api_keys" });
+    if(api_key_index.value < total_api_keys.value) {
+        api_key_index.value += 1;
+        await api_key_index.save();
+    }
+}
+
 module.exports = {
     getFormattedThumbnails,
     validateRequiredFields,
     validateDateTimeFields,
-    sendResponse
+    sendResponse,
+    getApiKey,
+    setNextApiKey
 }

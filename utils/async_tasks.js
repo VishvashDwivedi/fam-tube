@@ -2,11 +2,13 @@ const constants = require("../constants");
 const axios = require("axios");
 const { getFormattedThumbnails, validateRequiredFields, validateDateTimeFields  } = require("./helpers");
 const VideoDetails = require("../models");
+const { getApiKey, setNextApiKey } = require("./helpers");
 
 const addDataToDB = async (publishedBeforeTime, publishedAfterTime, retries, pageToken) => {
     console.log(publishedBeforeTime, " ", publishedAfterTime, " ", pageToken);
+    let api_key = await getApiKey();
     let params = {
-        key: process.env.API_KEY,
+        key: api_key,
         type: constants.TYPE,
         maxResults: constants.MAX_RESULTS,
         publishedAfter: publishedAfterTime.toISOString(),
@@ -26,7 +28,7 @@ const addDataToDB = async (publishedBeforeTime, publishedAfterTime, retries, pag
         const data = response.data;
         pageToken = data.nextPageToken;
         let items = data.items, bulkCreateList = [];
-        console.log(" ", items.length, "\n");
+        console.log("Items fetched: ", items.length);
         for(let item of items) {
             let id_obj = item.id || {};
             let value_obj = item.snippet || {};
@@ -52,9 +54,17 @@ const addDataToDB = async (publishedBeforeTime, publishedAfterTime, retries, pag
             addDataToDB(publishedBeforeTime, publishedAfterTime, constants.RETRIES, pageToken);
 
     } catch(e) {
-        console.log(e);
-        console.log(`Error message: ${String(e)}`);
-        console.log(`Stack Trace: ${e}`);
+        // Use next key if key is expired
+        if(e.response && e.response.status === 403) {
+            console.log("Authorization error or maximum quota exceeded for API_KEY");
+            await setNextApiKey();
+            retries += 1;
+        }
+        else {
+            console.log(`Error message: ${String(e)}`);
+            console.log(`Stack Trace: ${e}`);
+        }
+        // Retry if the request failed and attempts are left
         if(retries > 0)
             addDataToDB(publishedBeforeTime, publishedAfterTime, retries - 1, pageToken);
     }

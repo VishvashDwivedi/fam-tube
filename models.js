@@ -1,4 +1,3 @@
-require("./utils/connect_db");
 const mongoose = require("mongoose");
 var validator = require("validator");
 const { THUMBNAIL_QUALITY } = require("./constants");
@@ -53,6 +52,18 @@ const VideoDetailsSchema = new mongoose.Schema({
     },
 });
 
+const ConstantsSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    value: {
+        type: Number,
+        required: true,
+    }
+});
+
 VideoDetailsSchema.pre("save", next => {
     const obj = this;
     obj.updated_at = Date.now();
@@ -62,18 +73,9 @@ VideoDetailsSchema.pre("save", next => {
 VideoDetailsSchema.index({ title:1, description: 1 });
 
 const VideoDetails = mongoose.model("VideoDetails", VideoDetailsSchema);
+const Constants = mongoose.model("Constants", ConstantsSchema);
 
-// VideoDetails.create(
-//     {
-//         "title": "fjrf",
-//         "description": "gkjehgker",
-//         "published_date_time": Date.now(),
-//         "videoId": "eivfjiej",
-//         "thumbnails": [{
-//             "url": "https://youtb.com",
-//             "quality": "high"
-//         }]
-//     }
-// );
-
-module.exports = VideoDetails;
+module.exports = {
+    VideoDetails,
+    Constants
+};
