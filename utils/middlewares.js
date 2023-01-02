@@ -20,7 +20,7 @@ const validatePageAndPageSize = (req, res, next) => {
         );
     else
         req.query.page_size = (
-            page_size ? Math.min(parseInt(page), MAX_PAGE_SIZE) : MAX_PAGE_SIZE
+            page_size ? Math.min(parseInt(page_size), MAX_PAGE_SIZE) : MAX_PAGE_SIZE
         );
     next();
 }
