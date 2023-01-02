@@ -15,30 +15,6 @@ setInterval(() => {
     addDataToDB(published_before, published_after, constants.RETRIES);
 }, constants.API_CALL_INTERVAL_TIME*1000);
 
-// const f = async () => {
-
-//     await VideoDetails.insertMany([
-//         {
-//             "title":"acfvv",
-//             "description": "vvvv",
-//             "videoId": "fkjebhrfke",
-//             "published_date_time": Date.now()
-//         },
-//         {
-//             "title":"acfvvvd",
-//             "description": "vvvv",
-//             "videoId": "fkjehurfke",
-//             "published_date_time": Date.now()
-//         },
-//         {
-//             "title":"acfvwvv",
-//             "description": "vvvv",
-//             "videoId": "fkjeshrfke",
-//             "published_date_time": Date.now()
-//         }
-//     ], {ordered: false});
-// }
-// f();
 try {
     app.use(allRoutes);
 } catch(e) {
