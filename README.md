@@ -57,7 +57,7 @@ Install fam-tube with docker
 curl --location --request GET 'localhost:8000/fam-tube/get-videos/?page=1&page_size=5'
 ```
 
-### Search title and description
+#### Search title and description
 
 ```bash
 curl --location --request GET 'localhost:8000/fam-tube/search/?title=Beach Handball Girls Super Attacks Slow Motion&description=vvvv'
