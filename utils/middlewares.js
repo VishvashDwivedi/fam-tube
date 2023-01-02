@@ -11,7 +11,7 @@ const validatePageAndPageSize = (req, res, next) => {
             sendResponse("Invalid page, must be an integer greater than 1!")
         );
     else
-        req.query.page = (page ? parseInt(page)-1: 1);
+        req.query.page = (page ? parseInt(page)-1: 0);
 
     // If page_size exists but is not an integer or is less than 0
     if(page_size && ((!parseInt(page_size)) || parseInt(page_size) <= 0))
