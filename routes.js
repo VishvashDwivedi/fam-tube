@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const VideoDetails = require("./models");
+const { VideoDetails } = require("./models");
 const { sendResponse } = require("./utils/helpers");
 const { validatePageAndPageSize, validateTitleAndDesc } = require("./utils/middlewares");
 
@@ -24,8 +24,7 @@ router.get("/fam-tube/search/", validateTitleAndDesc, async (req, res) => {
         searchList.title = req.query.title;
     if(req.query.description)
         searchList.description = req.query.description;
-    let results = await VideoDetails.find(searchList);
-
+    let results = await VideoDetails.find(searchList).limit(20);
     return res.json(
         sendResponse("Success!", results)
     );

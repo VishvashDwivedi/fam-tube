@@ -1,7 +1,7 @@
 const constants = require("../constants");
 const axios = require("axios");
 const { getFormattedThumbnails, validateRequiredFields, validateDateTimeFields  } = require("./helpers");
-const VideoDetails = require("../models");
+const { VideoDetails } = require("../models");
 const { getApiKey, setNextApiKey } = require("./helpers");
 
 const addDataToDB = async (publishedBeforeTime, publishedAfterTime, retries, pageToken) => {

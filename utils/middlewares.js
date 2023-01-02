@@ -28,7 +28,6 @@ const validatePageAndPageSize = (req, res, next) => {
 const validateTitleAndDesc = (req, res, next) => {
     let title = req.query.title || "";
     let description = req.query.description || "";
-    console.log(title, description);
     if(!(title || description))
         return res.status(400).json(
             sendResponse("At least one of title and description should be true")
