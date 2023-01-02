@@ -1,5 +1,4 @@
 // Helper functions
-const validator = require("validator");
 const { Constants } = require("../models");
 
 const getFormattedThumbnails = (data) => {
@@ -19,12 +18,6 @@ const validateRequiredFields = (data) => {
             throw new Error(`${key} not found`)
 }
 
-const validateDateTimeFields = (data) => {
-    for(let [key, value] of Object.entries(data))
-        if(!value)
-            throw new Error(`${key} not found`)        
-}
-
 const sendResponse = (message, data) => {
     return {
         response_string: message,
@@ -35,7 +28,20 @@ const sendResponse = (message, data) => {
 const getApiKey = async () => {
     let all_api_keys = JSON.parse(process.env.API_KEYS);
     let api_key_index = await Constants.findOne({ name: "api_key_index" });
+    if(!api_key_index) {
+        api_key_index = await Constants.create({
+            name: "api_key_index",
+            value: 0
+        });
+    }
     let total_api_keys = await Constants.findOne({ name: "total_api_keys" });
+    if(!total_api_keys) {
+        total_api_keys = await Constants.create({
+            name: "total_api_keys",
+            value: all_api_keys.length
+        });
+    }
+
     if(api_key_index.value < total_api_keys.value)
         return all_api_keys[api_key_index.value];
     return "";

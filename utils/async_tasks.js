@@ -1,6 +1,6 @@
 const constants = require("../constants");
 const axios = require("axios");
-const { getFormattedThumbnails, validateRequiredFields, validateDateTimeFields  } = require("./helpers");
+const { getFormattedThumbnails, validateRequiredFields } = require("./helpers");
 const { VideoDetails } = require("../models");
 const { getApiKey, setNextApiKey } = require("./helpers");
 
@@ -37,9 +37,6 @@ const addDataToDB = async (publishedBeforeTime, publishedAfterTime, retries, pag
                 title: value_obj.title, 
                 published_date_time: value_obj.publishTime
             });
-            validateDateTimeFields({
-                published_date_time: value_obj.publishTime
-            })
 
             bulkCreateList.push({
                 videoId: id_obj.videoId,

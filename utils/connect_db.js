@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 mongoose.connect(
-    "mongodb://localhost:27017/fampay", {
+    "mongodb://mongo:27017/fam-mongo", {
         useUnifiedTopology: true,
     }, err => {
         if(err)
