@@ -46,6 +46,11 @@ const addDataToDB = async (publishedBeforeTime, publishedAfterTime, retries, pag
                 thumbnails: getFormattedThumbnails(value_obj.thumbnails)
             });
         }
+        /* 
+        Ordered true will ensure that all the non-duplicate records are inserted 
+        correctly. Even if an error occurs, non erroneous records will get
+        inserted.
+        */
         await VideoDetails.insertMany(bulkCreateList, {ordered: false});
         if(pageToken)
             addDataToDB(publishedBeforeTime, publishedAfterTime, constants.RETRIES, pageToken);
