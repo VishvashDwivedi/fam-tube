@@ -60,6 +60,6 @@ curl --location --request GET 'localhost:8000/fam-tube/get-videos/?page=1&page_s
 ### Search title and description
 
 ```bash
-curl --location --request GET '0.0.0.0:8000/fam-tube/search/?title=Beach Handball Girls Super Attacks Slow Motion&description=vvvv'
+curl --location --request GET 'localhost:8000/fam-tube/search/?title=Beach Handball Girls Super Attacks Slow Motion&description=vvvv'
 ```
 
