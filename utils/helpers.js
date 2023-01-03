@@ -59,7 +59,6 @@ const setNextApiKey = async () => {
 module.exports = {
     getFormattedThumbnails,
     validateRequiredFields,
-    validateDateTimeFields,
     sendResponse,
     getApiKey,
     setNextApiKey
